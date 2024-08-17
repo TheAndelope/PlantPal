@@ -1,34 +1,29 @@
-from flask import Flask, request, jsonify, send_from_directory
-import os
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 
-app = Flask(__name__, static_folder='../frontend', static_url_path='')
+app = Flask(__name__)
 
-UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
+# Home route
 @app.route('/')
-def serve_frontend():
-    return send_from_directory(app.static_folder, 'index.html')
+def home():
+    return render_template('index.html')
 
+# Example static file route (not usually necessary unless you have custom handling)
+@app.route('/static/<path:filename>')
+def custom_static(filename):
+    return send_from_directory('static', filename)
+
+# Example file upload route
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
-        return jsonify({'error': 'No file part'}), 400
+        return redirect(url_for('home'))
     file = request.files['file']
     if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
-    if file and allowed_file(file.filename):
-        filename = file.filename
-        file.save(os.path.join(UPLOAD_FOLDER, filename))
-        return jsonify({'message': 'File successfully uploaded'}), 200
-    else:
-        return jsonify({'error': 'File type not allowed'}), 400
+        return redirect(url_for('home'))
+    if file:
+        filepath = f'static/uploads/{file.filename}'
+        file.save(filepath)
+        return f'File uploaded to {filepath}'
 
 if __name__ == '__main__':
     app.run(debug=True)
