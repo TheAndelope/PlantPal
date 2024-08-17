@@ -1,7 +1,9 @@
 from dotenv import load_dotenv
 import os
 import openai
+import pyttsx3
 
+engine = pyttsx3.init()
 load_dotenv()
 
 api_key = os.getenv('OPENAI_API_KEY')
