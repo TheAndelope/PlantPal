@@ -4,13 +4,19 @@
 #include "config.h"
 #include <LiquidCrystal.h>
 
+
+LiquidCrystal lcd(33,25,26,27,14,12);
 bool jokeTold = false;
 bool insultTold = false;
 int receivedValue = 0;
+
 void setup() {
   Serial.begin(115200);
-  WiFi.begin(ssid, password);
-
+  lcd.begin(16,2);
+  lcd.print("Hello,World!");
+  lcd.clear(); 
+  WiFi.begin("Muffin", "Basicmango999");
+   
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
@@ -43,6 +49,10 @@ void loop() {
 
       if (httpResponseCode > 0) {
         String payload = http.getString();  // Get the response from the server
+        lcd.setCursor(0,0); 
+        lcd.print(payload);
+        delay(5000); 
+        lcd.clear();
         Serial.println("Insult: " + payload);  // Print the returned string from create_text()
       } else {
         Serial.println("Error on HTTP request");
@@ -65,6 +75,10 @@ void loop() {
 
       if (httpResponseCode > 0) {
         String payload = http.getString();  // Get the response from the server
+        lcd.setCursor(0,0);
+        lcd.print(payload);
+        delay(5000); 
+        lcd.clear();
         Serial.println("Joke: " + payload);  // Print the returned string from create_text()
       } else {
         Serial.println("Error on HTTP request");
