@@ -41,7 +41,7 @@ void loop() {
 
       if (httpResponseCode > 0) {
         String payload = http.getString();  // Get the response from the server
-        Serial.println("Joke: " + payload);  // Print the returned string from create_text()
+        Serial.println("Insult: " + payload);  // Print the returned string from create_text()
       } else {
         Serial.println("Error on HTTP request");
       }
