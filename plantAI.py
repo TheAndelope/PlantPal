@@ -26,3 +26,21 @@ def generate_text(model="gpt-4o-mini", max_tokens=40):
         frequency_penalty = 2.0
     )
     return response.choices[0].message.content
+
+def insult(model="gpt-4o-mini", max_tokens=80):
+    messages = [{"role": "system", "content": "You are a Plant"}]
+    messages.append({"role": "user", "content": "I've neglected watering you; be SUPER passive aggressive and ask for water"})
+
+    response = openai.chat.completions.create(
+        model=model,
+        messages=messages,
+        max_tokens=max_tokens,
+        temperature=1.3,  # Controls the randomness of the output
+        n=1,              # Number of responses to generate
+        stop=None,         # Stop sequence, if any
+        stream=False,
+        frequency_penalty = 2.0
+    )
+    return response.choices[0].message.content
+
+print(insult())
