@@ -5,6 +5,7 @@
 #include <LiquidCrystal.h>
 
 bool jokeTold = false;
+bool insultTold = false;
 int receivedValue = 0;
 void setup() {
   Serial.begin(115200);
@@ -30,7 +31,8 @@ void loop() {
     jokeTold = false;
   }
 
-  if (receivedValue < 20) {
+  if (receivedValue < 20&& !insultTold) {
+    insultTold=true;
         if (WiFi.status() == WL_CONNECTED) {  // Check if we are connected to the WiFi
       HTTPClient http;
 
@@ -51,6 +53,7 @@ void loop() {
   }
 
   if (receivedValue > 40 && !jokeTold) {
+    insultTold=false;
     jokeTold = true;
     if (WiFi.status() == WL_CONNECTED) {  // Check if we are connected to the WiFi
       HTTPClient http;
