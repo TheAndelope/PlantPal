@@ -1,11 +1,11 @@
 from flask import Flask
-from plantAI import create_text  # Import your existing function
+from plantAI import generate_text  # Import your existing function
 
 app = Flask(__name__)
 
 @app.route('/call_function', methods=['GET'])
 def call_function():
-    result = create_text()  # Call the function
+    result = generate_text()  # Call the function
     return result  # Return the result as a string
 
 if __name__ == '__main__':

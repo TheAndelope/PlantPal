@@ -1,9 +1,10 @@
 #include <WiFi.h> // For ESP32
 #include <WiFiClient.h>
 #include <HTTPClient.h>
+#include "config.h"
 
-const char* ssid = "Your_SSID"; // Your Wi-Fi SSID
-const char* password = "Your_PASSWORD"; // Your Wi-Fi Password
+const char* ssid = ssid; // Your Wi-Fi SSID
+const char* password = password; // Your Wi-Fi Password
 bool jokeTold=false;
 int recievedValue=0;
 void setup() {
@@ -26,11 +27,11 @@ void loop() {
 
       
     }
-    if(recievedValue>40&&!jokeTold) {
+    //if(recievedValue<40&&!jokeTold) {
         if (WiFi.status() == WL_CONNECTED) { // Check if we are connected to the WiFi
       HTTPClient http;
       
-      String serverPath = "http://<Your_Computer_IP>:5000/call_function"; // Replace with your computer's IP address
+      String serverPath = "http://<10.0.0.125>:5000/call_function"; // Replace with your computer's IP address
       
       http.begin(serverPath.c_str());
       int httpResponseCode = http.GET(); // Send the GET request
@@ -43,6 +44,7 @@ void loop() {
       }
       
       http.end(); // Free resources
-    }
+    //}
   }
+  delay(10000);
 }
