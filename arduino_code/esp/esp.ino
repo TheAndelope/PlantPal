@@ -70,5 +70,5 @@ void loop() {
       http.end();  // Free resources
     }
   }
-  delay(10000);
+  delay(250);
 }
